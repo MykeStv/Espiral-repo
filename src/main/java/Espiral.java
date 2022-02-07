@@ -1,9 +1,10 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Espiral {
     // Declara una matriz entera
     private int[][] matriz;
+    private int[] pos;
+    private int valorAux;
 
     //CONSTRUCTOR: Permite ingresar los valores iniciales
     public Espiral(){
@@ -19,6 +20,12 @@ public class Espiral {
 
         // Inicializa la matriz segun el tamaño decidido
         matriz = new int[row][column];
+
+        // Posicion de la matriz
+        pos = new int[]{0, 0};
+
+        //valor que irá llenando la matriz
+        valorAux = 1;
     }
 
     //Metodo que muestra la matriz
@@ -33,23 +40,83 @@ public class Espiral {
     }
 
     //Metodo llenar matriz de izq a derecha
-    public void llenarIzquieraDerecha() {
-        //valor que irá llenando la matriz
-        int valorAux = 1;
+    public void izqDer() {
 
+        for (int j = pos[1]; j< matriz[pos[0]].length; j++) {
 
-        for (int i = 0; i < matriz.length; i++) {
-
-            //Si la matriz tiene un valor asignado.. sigue a la siguiente fila
-            if (matriz[i][0] != 0) {
-                continue;
+            if (matriz[pos[0]][j] != 0) {
+                break;
             }
+            pos[1] = j;
 
-            for (int j = 0; j< matriz[i].length; j++) {
-                matriz[i][j] = valorAux;
-                valorAux++;
+            matriz[pos[0]][j] = valorAux;
+            valorAux++;
+
+        }
+        pos[0]++;
+        if (matriz[pos[0]][pos[1]] != 0) {
+            System.out.println("Matriz completa");
+        } else {
+            descendente();
+        }
+
+    }
+
+    public void descendente() {
+
+        for (int i = pos[0]; i < matriz.length ; i++) {
+
+            if (matriz[i][pos[1]] != 0) {
+                break;
             }
+            pos[0] = i;
+            matriz[pos[0]][pos[1]] = valorAux;
+            valorAux++;
+        }
+        pos[1]--;
+        if (matriz[pos[0]][pos[1]] != 0) {
+            System.out.println("Matriz completa");
+        } else {
+            derIzq();
+        }
+    }
 
+    public void derIzq() {
+
+        for (int j = pos[1]; j >= 0; j--) {
+
+            if (matriz[pos[0]][j] != 0) {
+                break;
+            }
+            pos[1] = j;
+            matriz[pos[0]][j] = valorAux;
+            valorAux++;
+        }
+        pos[0]--;
+        if (matriz[pos[0]][pos[1]] != 0) {
+            System.out.println("Matriz completa");
+        } else {
+
+            ascendente();
+        }
+    }
+
+    public void ascendente() {
+
+        for (int i = pos[0]; i >= 0 ; i--) {
+
+            if (matriz[i][pos[1]] != 0) {
+                break;
+            }
+            pos[0] = i;
+            matriz[pos[0]][pos[1]] = valorAux;
+            valorAux++;
+        }
+        pos[1]++;
+        if (matriz[pos[0]][pos[1]+1] != 0) {
+            System.out.println("Matriz completa");
+        } else {
+            izqDer();
         }
     }
 
@@ -59,7 +126,8 @@ public class Espiral {
         Espiral matrizEspiral = new Espiral();
         matrizEspiral.showMatriz();
 
-        matrizEspiral.llenarIzquieraDerecha();
+
+        matrizEspiral.izqDer();
         matrizEspiral.showMatriz();
 
 
