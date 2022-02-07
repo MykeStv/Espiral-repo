@@ -1,4 +1,2 @@
-**/.graddle
-**/.idea
-**/build
-**/gradle
+# Ignorar el build
+build/
